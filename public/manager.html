@@ -1,0 +1,108 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Course Manager</title><link rel="stylesheet" href="/common.css"><style>
+*{box-sizing:border-box}body{margin:0;font-size:14px;line-height:1.5;color:var(--fg);background:#fff}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}[hidden]{display:none!important}
+header{display:flex;align-items:center;gap:16px;padding:14px 28px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:#fff;z-index:20}h1{font-size:18px;font-weight:700;margin:0;letter-spacing:-.01em}nav{margin-left:auto;display:flex;gap:10px;align-items:center}
+button,nav a,summary{font:inherit;color:var(--fg);background:#fff;border:1px solid var(--bd);border-radius:8px;padding:6px 12px;cursor:pointer;text-decoration:none;list-style:none;transition:border-color .15s,background .15s}summary::-webkit-details-marker{display:none}
+button:hover,nav a:hover,summary:hover{background:var(--mist);border-color:#cfd6da}.pri{background:var(--ac);border-color:var(--ac);color:#fff}.pri:hover{background:var(--ac);filter:brightness(.93)}.txt{border:0;background:none;color:var(--mut)}.txt:hover{background:none;color:var(--fg)}.dng{color:var(--er)}button:disabled{opacity:.35;cursor:default}
+main{max-width:1180px;margin:0 auto;padding:12px 28px 60px}#msg{display:none;position:fixed;right:24px;top:70px;z-index:30;max-width:440px;background:#fff;border:1px solid var(--bd);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.1);padding:12px 16px;white-space:pre-wrap;cursor:pointer}#msg.show{display:block}.err{color:var(--er)}.ok{color:var(--ac)}.warn{color:#9a6700}
+.row{display:grid;grid-template-columns:128px 1fr 230px auto;gap:18px;align-items:center;padding:16px 0;border-bottom:1px solid var(--bd)}.full{grid-column:1/-1}
+.mvg{display:grid;grid-template-columns:repeat(2,auto);gap:2px}.ib{padding:4px 6px;display:inline-flex;border-color:transparent;color:var(--mut)}.ib:hover{border-color:var(--bd)}
+.thumb{width:128px;aspect-ratio:4/3;object-fit:cover;border-radius:8px;background:var(--mist);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:600}
+.nm b{font-size:16px;font-weight:600}.au{color:var(--mut)}.path{color:var(--mut);font-size:12px;word-break:break-all}.stt{font-size:13px;color:var(--mut)}.bar{height:5px;background:var(--bd);border-radius:3px;overflow:hidden;margin:6px 0 4px}.bar i{display:block;height:100%;background:var(--ac)}
+.acts{display:flex;gap:8px;align-items:center}.menu{position:relative}.pop{position:absolute;right:0;top:calc(100% + 4px);z-index:15;background:#fff;border:1px solid var(--bd);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.1);padding:6px;min-width:200px;display:grid}.pop button,.pop a{border:0;background:none;text-align:left;padding:8px 10px;color:var(--fg);text-decoration:none;border-radius:6px}.pop button:hover,.pop a:hover{background:var(--mist)}.pop hr{border:0;border-top:1px solid var(--bd);margin:4px 0;width:100%}
+.edit{display:grid;gap:10px;max-width:640px}.edit label{display:grid;gap:4px;font-size:12px;color:var(--mut)}.edit input,.edit textarea{font:inherit;padding:8px 10px;border:1px solid var(--bd);border-radius:8px;color:var(--fg)}.btns{display:flex;gap:8px;flex-wrap:wrap}
+h4{margin:14px 0 0;font-size:13px;display:flex;gap:10px;align-items:center;position:sticky;top:57px;background:#fff;padding:6px 0;z-index:5}
+table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:13px}td{padding:5px 6px;border-top:1px solid var(--bd);vertical-align:middle}td:first-child{overflow-wrap:anywhere}td:nth-child(n+2){white-space:nowrap}td:nth-child(2){width:80px;text-align:right}td:nth-child(3){width:56px;text-align:right}td:nth-child(4){width:40px;text-align:center}td:nth-child(5){width:84px;text-align:center}td:nth-child(6){width:190px;text-align:right}tr:hover td,tr:focus-within td{background:#eaf4f1}.mvi{display:inline-flex;gap:4px}
+.empty{text-align:center;padding:80px 0;color:var(--mut)}
+body{font-size:15px}h1{font-size:20px}.nm b{font-size:18px}.path{font-size:13px}.stt{font-size:14px}button,nav a,summary,.pop button,.pop a{font-size:15px}.edit label,.edit small{font-size:13px}.edit input,.edit textarea{font-size:15px}h4{font-size:15px}table{font-size:15px}table button{font-size:14px}td{padding:7px 8px}td:nth-child(2){width:92px}td:nth-child(3){width:64px}td:nth-child(5){width:92px}.row{grid-template-columns:128px 1fr 270px auto}
+.acol{display:grid;gap:6px;justify-items:end}.mvr{display:flex;gap:2px}
+h4 button{font-weight:400;font-size:13px;padding:4px 10px}
+.au{display:block}.dsc{white-space:pre-wrap;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer;color:var(--mut);font-size:14px;margin-top:2px}.dsc.open{display:block}
+#prog{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:40;background:#fff;border:1px solid var(--bd);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:14px 18px;min-width:380px;display:grid;gap:8px}#prog .bar{margin:0}#prog button{justify-self:end}
+#fp{position:fixed;inset:0;z-index:60;background:rgba(20,30,36,.4);display:flex;align-items:flex-start;justify-content:center;padding-top:9vh}.fpw{width:min(660px,calc(100vw - 32px));max-height:80vh;background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.25);padding:20px;display:flex;flex-direction:column;gap:10px}.fpw h3{margin:0;font-size:18px}
+#fpin{width:100%;padding:9px 12px;border:1px solid var(--bd);border-radius:8px;font:inherit;font-size:15px}.fpq{display:flex;gap:6px;flex-wrap:wrap}.fpq button{padding:3px 10px;font-size:13px}.fpl{overflow:auto;min-height:180px;border:1px solid var(--bd);border-radius:10px}.fpi{display:flex;gap:10px;align-items:center;padding:8px 12px;cursor:pointer}.fpi:hover{background:var(--mist)}.fpm{min-height:20px;font-size:13px;color:var(--mut)}.fpf{display:flex;justify-content:flex-end;gap:8px}.fi{flex:none;color:#d9a21b}
+</style></head><body>
+<header><h1>Course Manager</h1><nav><a class="txt" href="/player.html">Open Player</a><details class="menu"><summary>Backup</summary><div class="pop"><a href="/api/export" download>Export all</a><button data-a="imp">Import all…</button></div></details><button class="pri" data-a="add">Add course</button></nav></header>
+<main><div id="msg"></div><div id="list"></div></main><div id="fp" hidden><div class="fpw" role="dialog" aria-modal="true"><h3 id="fpt"></h3><input id="fpin" placeholder="Type or paste a full folder path, for example E:\Courses" autocomplete="off" spellcheck="false"><div id="fpq" class="fpq"></div><div id="fpm" class="fpm"></div><div id="fpl" class="fpl"></div><div id="fpc" class="fpm"></div><div class="fpf"><button id="fpx">Cancel</button><button id="fps" class="pri">Select this folder</button></div></div></div>
+<div id="prog" hidden><b id="pt"></b><div class="bar"><i id="pb"></i></div><button id="pc">Cancel</button></div><input id="jf" type="file" accept=".zip,.json" hidden><input id="imgf" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+<script src="/common.js"></script>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const api=async(p,b)=>(await fetch('/api/'+p,b===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)})).json();
+const fmt=t=>{if(!(t>0))return'--:--';t=Math.round(t);const h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=String(t%60).padStart(2,'0');return h?`${h}:${String(m).padStart(2,'0')}:${s}`:`${m}:${s}`};
+let pref={},fpRes=null,fpSeq=0,fpTm,fpFirst=null;
+const col=new Intl.Collator(undefined,{numeric:true});let st=[],opn=new Set(),det={},busy=false;
+const say=(t,e)=>{const x=$('#msg');x.className=(e?'err':'ok')+' show';x.textContent=t;clearTimeout(say.t);if(!e)say.t=setTimeout(()=>x.classList.remove('show'),5000)};$('#msg').onclick=e=>e.currentTarget.classList.remove('show');
+async function load(){const S=await api('state');st=S.courses;pref=S.prefs||{};for(const id of opn)det[id]=await api('courseinfo/'+id);render()}
+const ic=d=>`<svg width="14" height="14" viewBox="0 0 14 14"><path d="${d}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const IC={top:ic('M2 2h10M7 12V5M3.5 8.5L7 5l3.5 3.5'),up:ic('M7 12V3M3.5 6.5L7 3l3.5 3.5'),down:ic('M7 2v9M3.5 7.5L7 11l3.5-3.5'),bottom:ic('M2 12h10M7 2v7M3.5 5.5L7 9l3.5-3.5')},TT={top:'Move to top',up:'Move up',down:'Move down',bottom:'Move to bottom'};
+const mvb=(a,x,i,n)=>['top','up','down','bottom'].map(t=>`<button class="ib" title="${TT[t]}" data-a="${a}" data-to="${t}" ${x}${(i===0&&(t==='top'||t==='up'))||(i===n-1&&(t==='down'||t==='bottom'))?' disabled':''}>${IC[t]}</button>`).join('');
+const dirOf=r=>r.includes('/')?r.slice(0,r.lastIndexOf('/')):'',bn=r=>r.split('/').pop(),editing=new Set();let imgTarget=null;
+function lessons(d){const P=d.progress.lessons||{},O=d.order||{},g={};for(const v of d.videos)(g[dirOf(v.rel)]??=[]).push(v);
+ return Object.keys(g).sort(col.compare).map(dir=>{const o=O[dir]||[],ix=v=>{const i=o.indexOf(v.key);return i<0?1e9:i},vs=g[dir].sort((a,b)=>col.compare(bn(a.rel),bn(b.rel))).sort((a,b)=>ix(a)-ix(b));
+  return`<h4>${esc(dir||'(course root)')}${O[dir]?` <button data-a="vo" data-dir="${esc(dir)}">Restore default order</button>`:''}</h4><table>`+vs.map((v,i)=>{const r=P[v.key]||{};return`<tr><td>${esc(bn(v.rel))}</td><td>${fmt(v.dur)}</td><td>${Math.round(r.progress||0)}%</td><td>${r.completed?'✔':''}</td><td><button data-a="rl" data-k="${esc(v.key)}">Reset</button></td><td><span class="mvi">${mvb('vm','data-k="'+esc(v.key)+'"',i,vs.length)}</span></td></tr>`}).join('')+'</table>'}).join('')}
+const hue=s=>{let h=0;for(const c of s)h=(h*31+c.codePointAt(0))%360;return h},lenF=t=>{t=Math.floor(t||0);const h=Math.floor(t/3600),m=Math.floor(t%3600/60);return h?(m?`${h}h ${m}m`:`${h}h`):`${m}m`};
+const sumT=c=>`${c.sections} module${c.sections==1?'':'s'} • ${c.total} lesson${c.total==1?'':'s'}${c.totalDur>0?' • '+lenF(c.totalDur):''}`;
+function render(){$('#list').innerHTML=st.length?st.map((c,ci)=>{const p=c.total?Math.round(c.done/c.total*100):0,o=opn.has(c.id),e=editing.has(c.id),h=hue(c.name);
+ return`<article class="row" data-id="${c.id}">${c.image?`<img class="thumb" src="/cover/${c.id}?t=${Date.now()}" alt="">`:`<div class="thumb" style="background:hsl(${h} 36% 90%);color:hsl(${h} 40% 34%)">${esc([...c.name.trim()][0]||'?')}</div>`}
+ <div class="nm"><b>${esc(c.name)}</b>${c.author?`<div class="au">${esc(c.author)}</div>`:''}${c.description&&!e?`<div class="dsc" data-a="dtoggle" title="Click to expand">${esc(c.description)}</div>`:''}<div class="path">${esc(c.path)}</div>${c.exists?'':'<div class="err">Folder not found. Use “Change location”.</div>'}${c.indexed?'':'<div class="warn">Not scanned yet. Press Update.</div>'}</div>
+ <div class="stt">${sumT(c)}<div class="bar"><i style="width:${p}%"></i></div>${p}% complete • ${c.files} resource file${c.files==1?'':'s'}${c.last?`<br>Last watched: ${fmtWhen(c.last.lastWatched)}`:''}</div>
+ <div class="acol"><div class="acts"><button${c.indexed?'':' class="pri"'} data-a="update">Update</button><details class="menu"><summary aria-label="More actions">⋯</summary><div class="pop"><button data-a="edit">Edit details…</button><button data-a="img">Change image…</button><button data-a="reloc">Change location…</button><button data-a="lessons">${o?'Hide':'Show'} lessons</button><hr><button data-a="reset">Reset progress</button><button class="dng" data-a="remove">Remove course</button></div></details></div><div class="mvr">${mvb('cm','',ci,st.length)}</div></div>
+  ${e?`<div class="full edit"><label>Name<input id="en" maxlength="200" value="${esc(c.name)}"></label><label>Author<input id="ea" maxlength="200" value="${esc(c.author)}"></label><label>Description<textarea id="ed" rows="6" maxlength="2000">${esc(c.description)}</textarea></label><div class="btns"><button class="pri" data-a="msave">Save</button><button data-a="edit">Cancel</button>${c.image?'<button class="dng" data-a="iclr">Remove image</button>':''}</div><small class="path">Remove image permanently deletes this course's image file in data/covers (after you confirm). Choosing a new image keeps the old file. Changing the name does not rename the image file or the folder.</small></div>`:''}
+ ${o&&det[c.id]?`<div class="full">${lessons(det[c.id])}</div>`:''}</article>`}).join(''):'<div class="empty"><b>No courses yet</b><p>Press “Add course” and choose a course folder.</p></div>'}
+function dur(id,key){return new Promise(r=>{const v=document.createElement('video');v.preload='metadata';const done=x=>{clearTimeout(t);v.removeAttribute('src');v.load();r(x)},t=setTimeout(()=>done(0),20000);
+ v.onloadedmetadata=()=>done(isFinite(v.duration)?v.duration:0);v.onerror=()=>done(0);v.src=`/media/${id}/${encodeURIComponent(key)}`})}
+let cancelled=false;$('#pc').onclick=()=>{cancelled=true};
+async function measure(id,keys){const fails=[];let out={};cancelled=false;$('#prog').hidden=false;
+ for(let i=0;i<keys.length&&!cancelled;i++){$('#pt').textContent=`Reading video durations ${i+1}/${keys.length}`;$('#pb').style.width=(i/keys.length*100)+'%';out[keys[i]]=await dur(id,keys[i]);if(!(out[keys[i]]>0))fails.push(keys[i]);if(Object.keys(out).length>=10||i===keys.length-1){await api('course/durations',{id,durations:out});out={}}}
+ if(Object.keys(out).length)await api('course/durations',{id,durations:out});$('#prog').hidden=true;fails.cancelled=cancelled;return fails}
+async function after(id,r,label,add){if(!r.ok){say(r.duplicates?'Cannot read this course: duplicate video file names found:\n'+r.duplicates.map(a=>a.join('   |   ')).join('\n'):(r.error||'Failed'),1);return}
+ const bad=r.needDur.length?await measure(id,r.needDur):[],list=bad.map(k=>'  • '+(r.rel[k]||k)).join('\n');
+ if(bad.cancelled){if(add)await api('course/discard',{id});say(add?'Cancelled. The course was not added.':'Cancelled. Some durations were not read yet.');await load();return}
+ if(add){if(bad.length){await api('course/discard',{id});say('Course NOT added. These video files have no readable duration (corrupt or unsupported by the browser):\n'+list,1);await load();return}await api('course/commit',{id})}
+ say(`${label}: ${r.added} added, ${r.removed} removed.`+(bad.length&&!add?'\nWarning: duration could not be read for:\n'+list:''),bad.length&&!add);await load()}
+const FI='<svg class="fi" viewBox="0 0 20 20" width="18" height="18"><path d="M2 5.5A1.5 1.5 0 013.5 4h4l1.5 2h7A1.5 1.5 0 0117.5 7.5v7A1.5 1.5 0 0116 16H3.5A1.5 1.5 0 012 14.5z" fill="currentColor"/></svg>';
+function pickFolder(title){return new Promise(res=>{fpRes=res;$('#fpt').textContent=title;$('#fp').hidden=false;fpGo(pref.lastDir||'');setTimeout(()=>$('#fpin').focus(),0)})}
+function fpClose(v){$('#fp').hidden=true;if(fpRes){fpRes(v);fpRes=null}}
+async function fpGo(p,filter='',typing=false){const q=++fpSeq,r=await api('fs/list',{path:p});if(q!==fpSeq)return;
+ $('#fpq').innerHTML=(r.parent!=null&&!typing?`<button data-fp="${esc(r.parent)}">↑ Up</button>`:'')+(r.quick||[]).map(x=>`<button data-fp="${esc(x.path)}">${esc(x.name)}</button>`).join('');
+ $('#fpc').textContent='';fpFirst=null;
+ if(r.error){$('#fpm').textContent=r.error;$('#fpl').innerHTML='';return}
+ const it=r.items.filter(x=>!filter||x.name.toLowerCase().startsWith(filter.toLowerCase()));fpFirst=filter&&it[0]?it[0].path:null;
+ if(!typing)$('#fpin').value=r.path;$('#fpm').textContent=r.path?(filter?'Folders starting with "'+filter+'" (Tab completes the first one)':'Click a folder to open it, or type a path above'):'Choose a drive';
+ $('#fpl').innerHTML=it.length?it.map(x=>`<div class="fpi" data-fp="${esc(x.path)}">${FI}<span>${esc(x.name)}</span></div>`).join(''):'<div class="fpm" style="padding:14px">No subfolders</div>';
+ if(r.path&&!typing){$('#fpc').textContent='Counting videos…';const c=await api('fs/count',{path:r.path});if(q===fpSeq)$('#fpc').textContent=`${c.n}${c.capped?'+':''} video${c.n==1?'':'s'} in this folder and its subfolders`}}
+function fpType(){const v=$('#fpin').value.trim();if(!v)return fpGo('');if(/^[A-Za-z]:?$/.test(v))return fpGo(v[0].toUpperCase()+':\\');const k=v.match(/^(.*[\\/])([^\\/]*)$/);if(k)fpGo(k[1],k[2],true)}
+$('#fpin').oninput=()=>{clearTimeout(fpTm);fpTm=setTimeout(fpType,180)};
+$('#fpin').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();fpGo($('#fpin').value.trim())}else if(e.key==='Tab'&&fpFirst){e.preventDefault();const sep=fpFirst.includes('\\')?'\\':'/';$('#fpin').value=fpFirst+sep;fpGo(fpFirst)}};
+$('#fp').addEventListener('click',e=>{if(e.target.id==='fp')return fpClose(null);const b=e.target.closest('[data-fp]');if(b)fpGo(b.dataset.fp)});
+$('#fpx').onclick=()=>fpClose(null);$('#fps').onclick=()=>{const v=$('#fpin').value.trim();if(v)fpClose(v)};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#fp').hidden)fpClose(null)});
+
+const keep=async(b,id,fn)=>{const y=b.getBoundingClientRect().top,a=b.dataset.a,k=b.dataset.k,t=b.dataset.to;await fn();await load();const nb=[...document.querySelectorAll(`[data-a="${a}"]`)].find(x=>x.dataset.to===t&&x.dataset.k===k&&x.closest('.row').dataset.id===id);if(nb){scrollBy(0,nb.getBoundingClientRect().top-y);nb.focus({preventScroll:true})}};
+const act={
+ add:async()=>{const d=await pickFolder('Add course: choose the course folder');if(!d)return;say('Scanning…');const r=await api('course/add',{path:d});await after(r.id,r,'Course added',true)},
+ update:async id=>{say('Scanning…');await after(id,await api('course/update',{id}),'Updated')},
+ reloc:async id=>{const d=await pickFolder('Change location: choose the new folder');if(!d)return;say('Scanning…');const r=await api('course/relocate',{id,path:d});await after(id,r,'Location changed')},
+ reset:async id=>{if(!confirm('Reset ALL progress for this course?'))return;await api('progress/reset',{id});say('Progress reset.');await load()},
+ rl:async(id,b)=>{await api('progress/reset',{id,key:b.dataset.k});await load()},
+ remove:async id=>{if(!confirm('Remove this course and its progress from the list? Your video files are not touched.'))return;await api('course/remove',{id});opn.delete(id);say('Course removed.');await load()},
+ dtoggle:async(id,b)=>{b.classList.toggle('open')},
+ edit:async id=>{editing.has(id)?editing.delete(id):editing.add(id);render()},
+ msave:async id=>{await api('course/meta',{id,name:$('#en').value,author:$('#ea').value,description:$('#ed').value});editing.delete(id);say('Details saved.');await load()},
+ iclr:async id=>{const c=st.find(x=>x.id===id);if(!confirm(`Permanently delete the image file "${c.imageName}" from data/covers? This cannot be undone. (Your original picture elsewhere is not affected.)`))return;const r=await api('course/image-clear',{id});say(r.deleted?'Image removed and its file deleted.':r.shared?'Image removed from this course. Another course uses the same file, so it was kept.':'Image removed from this course (the file was already missing).');await load()},
+ img:async id=>{imgTarget=id;$('#imgf').click()},
+ cm:async(id,b)=>keep(b,id,()=>api('course/move',{id,to:b.dataset.to})),
+ vm:async(id,b)=>keep(b,id,()=>api('video/move',{id,key:b.dataset.k,to:b.dataset.to})),
+ vo:async(id,b)=>{if(!confirm('Restore the default order (sorted by file name) for "'+(b.dataset.dir||'course root')+'"? Your custom order in this folder will be lost.'))return;await api('video/order-reset',{id,dir:b.dataset.dir});await load()},
+ lessons:async id=>{opn.has(id)?opn.delete(id):opn.add(id);await load()},
+ imp:async()=>$('#jf').click(),
+ quit:async()=>{if(!confirm('Stop the server? Player and Manager will stop working until you start it again.'))return;await api('quit',{});document.body.innerHTML='<p style="padding:20px">Server stopped. You can close this tab.</p>'}};
+document.addEventListener('click',async e=>{document.querySelectorAll('details[open]').forEach(d=>{if(!(e.target.closest('summary')&&d.contains(e.target)))d.open=false});const b=e.target.closest('[data-a]');if(!b)return;if(busy)return say('Please wait for the current task to finish.',1);
+ busy=true;try{await act[b.dataset.a](b.closest('.row')?.dataset.id,b)}catch(x){say('Error: '+x.message,1)}busy=false});
+$('#imgf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f||!imgTarget)return;try{const bm=await createImageBitmap(f),h=Math.min(720,bm.height),w=Math.round(bm.width*h/bm.height),cv=document.createElement('canvas');cv.width=w;cv.height=h;const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(bm,0,0,w,h);
+ const blob=await new Promise(r=>cv.toBlob(r,'image/jpeg',.9)),r=await(await fetch('/api/course/image?id='+imgTarget,{method:'POST',body:blob})).json();r.ok?say('Image saved to data/covers.'):say(r.error||'Upload failed',1);await load()}catch(x){say('Cannot read this image: '+x.message,1)}};
+$('#jf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(!confirm('Replace ALL courses, progress and settings with this backup?'))return;
+ const r=await(await fetch('/api/import',{method:'POST',body:f})).json();if(!r.ok)return say(r.error,1);say('Imported. Press Update on each course to rebuild its file list (folders must exist at the saved paths, otherwise use Change location).');await load()};
+load().catch(()=>say('Cannot reach the server.',1));
+</script></body></html>

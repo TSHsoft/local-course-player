@@ -1,0 +1,6 @@
+# Local user data: course paths, progress, notes and cover images. Never commit.
+data/
+node_modules/
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,8 @@
+/* shared by player.html and manager.html: change colors/fonts here once */
+:root{--bg:#fff;--mist:#f4f6f7;--fg:#1e2a32;--card:#fff;--mut:#5b6770;--ac:#0f7b63;--bd:#e3e7ea;--ok:#0f7b63;--er:#c0392b;--warn:#9a6700;--font:Arial,'Microsoft YaHei','微软雅黑',sans-serif}
+*{box-sizing:border-box}
+body{font-family:var(--font);font-variant-numeric:tabular-nums;color:var(--fg);background:#fff;line-height:1.5}
+button,select,input,textarea,summary{font-family:inherit}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+[hidden]{display:none!important}
+#srvbar{position:sticky;top:0;z-index:100;background:#fdecea;color:var(--er);border-bottom:1px solid #f5c6c0;padding:10px 24px;text-align:center}
