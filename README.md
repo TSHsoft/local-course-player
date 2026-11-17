@@ -29,6 +29,8 @@ People who keep downloaded or recorded courses in folders and want to study them
 - Subtitles from `.srt` or `.vtt` files, with an on and off button and a track menu when a lesson has more than one track.
 - Resizable lesson list. The width is remembered per course.
 
+![Player course page](docs/screenshots/player-course.png)
+
 **Manager**
 
 - Add several courses. Each course is one folder that you pick.
